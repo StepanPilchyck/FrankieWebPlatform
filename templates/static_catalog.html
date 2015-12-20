@@ -1,0 +1,91 @@
+{% extends "blocks/base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-sm-4">
+                <div class="col-sm-12">
+                    {% include "blocks/_extra-menu.html" %}
+                </div>
+                <div class="col-sm-12">
+                    {% include "blocks/_filter.html" %}
+                </div>
+            </div>
+
+
+            <div class="col-sm-8">
+
+                {% include "blocks/_bread-crumbs.html" %}
+
+                {% if seo.h1 %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1>{{ seo.h1 }}</h1>
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% if static_page.first_text %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        {% autoescape off %}{{ static_page.first_text }}{% endautoescape off %}
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% if top_products %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>Топ продаж</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                    {% for item in top_products %}
+                        <div class="col-md-4">
+                        {% include "blocks/_product-item-preview_dp.html" %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% if new_products %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>Новинки</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                    {% for item in new_products %}
+                        <div class="col-md-4">
+                        {% include "blocks/_product-item-preview_dp.html" %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+
+                {% if static_page.second_text %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        {% autoescape off %}{{ static_page.second_text }}{% endautoescape off %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

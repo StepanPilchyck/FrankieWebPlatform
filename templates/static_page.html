@@ -1,0 +1,41 @@
+{% extends "blocks/base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        {% include "blocks/_bread-crumbs.html" %}
+
+        {% if seo.h1 %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>{{ seo.h1 }}</h1>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if static_page.first_text %}
+        <div class="row">
+            <div class="col-xs-12">
+                {% autoescape off %}{{ static_page.first_text }}{% endautoescape off %}
+            </div>
+        </div>
+        {% endif %}
+
+
+
+
+
+        {% if static_page.second_text %}
+        <div class="row">
+            <div class="col-xs-12">
+                {% autoescape off %}{{ static_page.second_text }}{% endautoescape off %}
+            </div>
+        </div>
+        {% endif %}
+
+
+    </div>
+
+{% endblock %}

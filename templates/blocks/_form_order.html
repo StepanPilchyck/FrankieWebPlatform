@@ -1,0 +1,20 @@
+<form method="post" class="web_shop_cart-form_order">
+    {% csrf_token %}
+    <div class="web_shop_cart-product_hidden_field">
+        {% if products_in_cart.product %}
+            {% for p, val in products_in_cart.product.items %}
+                {% if p.c %}
+                    <input type="hidden" name="product_positions" value="{{ val.p }};{{ val.p_count }};{{ val.c }}">
+                {% else %}
+                    <input type="hidden" name="product_positions" value="{{ val.p }};{{ val.p_count }}">
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <input name="total_price" type="hidden" value="{{ total_price|floatformat:'-2' }}">
+    </div>
+
+    <label for="id_user_name">Name:</label><input id="id_user_name" maxlength="100" name="user_name" type="text"><br>
+    <label for="id_user_email">E-mail:</label><input id="id_user_email" maxlength="100" name="user_email" type="text"><br>
+    <label for="id_user_phone">Phone:</label><input id="id_user_phone" maxlength="13" name="user_phone" type="text"><br>
+    <input value="Отправить" type="submit">
+</form>

@@ -1,0 +1,51 @@
+<div class="product-add_to_cart">
+
+    <a href="/product/{{ item.product.url }}">
+        {% for image in item.images %}
+            {% if forloop.first %}
+            {% comment %}<img src={{ image.small_image }} alt="{{ image.name }}"/>{% endcomment %}
+            {% endif %}
+        {% endfor %}
+    </a>
+
+    <br>
+
+    <a href="/product/{{ item.product.url }}">
+        {{ item.product.name }}
+    </a>
+
+    <br>
+
+    <span>Rating: {{ item.product.get_avg_rating }}</span>
+
+    <br>
+
+    {% if item.corrections %}
+        <div class="product-price_corrector">
+            {% for corrector in item.corrections %}
+                <label for="cor_{{ item.product.id }}_{{ corrector.id }}">{{ corrector.name }}</label>
+                <input type="radio" name="product_{{ item.product.id }}" id="cor_{{ item.product.id }}_{{ corrector.id }}" value="{{ corrector.get_new_price }}" data-p="{{ item.product.id }}" data-c="{{ corrector.id }}">
+            {% endfor %}
+        </div>
+        <span class="product-price_corrector_print"></span>
+    {% else %}
+        <span class="product-price">{{ item.product.get_default_price|floatformat:'-2'  }}</span>
+    {% endif %}
+
+    <br>
+
+    <div class="product-button_cart">
+    {% if item.count_in_cart %}
+        <input class="product_count-add_cart" value="+" data-p="{{ item.product.id }}" data-c="" type="button">
+        <span class="product_count-in_cart">{{ item.count_in_cart }}</span>
+        <input class="product_count-delete_cart" value="-" data-p="{{ item.product.id }}" data-c="" type="button">
+    {% else %}
+        <input type="button" class="add-to-cart" value="Add to cart" name="Add" data-p="{{ item.product.id }}" data-c="" />
+    {% endif %}
+    </div>
+
+    <br>
+    <input type="button" class="product_show_modal" value="Show modal" name="Modal" data-url="{{ item.product.url }}" />
+    <br>
+
+</div>

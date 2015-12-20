@@ -1,0 +1,48 @@
+<div>
+    <form action="" class="submit-false">
+    <label>Price MIN:
+        <input type="text" name="price_from" value="{{ filter.price_from.default_price__min }}">
+    </label><br/>
+    <label>Price MAX:
+        <input type="text" name="price_to" value="{{ filter.price_to.default_price__max }}">
+    </label>
+    <br/>
+    {% for elem in filter %}
+        <p>{{ elem.name }}</p>
+        {% if elem.custom_values %}
+            {% for custom_value in elem.custom_values %}
+                    {% if custom_value.custom_value in elem.custom_value_checked %}
+                        <input type="checkbox" id="label_{{ elem.param_id }}.0" name="{{ elem.param_id }}.0" value="{{ custom_value.custom_value }}" checked>
+                    {% else %}
+                        <input type="checkbox" id="label_{{ elem.param_id }}.0" name="{{ elem.param_id }}.0" value="{{ custom_value.custom_value }}">
+                    {% endif %}
+                <label  for="label_{{ elem.param_id }}.0">{{ custom_value.custom_value }}</label>
+                <br>
+            {% endfor %}
+        {% endif %}
+        {% if elem.available_intervals %}
+            {% for item in elem.available_intervals %}
+
+                    {% if item.id in elem.interval_checked %}
+                        <input type="checkbox" id="label_{{ elem.param_id }}.1.{{ item.id }}" name="{{ elem.param_id }}.1.{{ item.id }}" value="{{ item.id }}" checked>
+                    {% else %}
+                        <input type="checkbox" id="label_{{ elem.param_id }}.1.{{ item.id }}" name="{{ elem.param_id }}.1.{{ item.id }}" value="{{ item.id }}">
+                    {% endif %}
+               <label for="label_{{ elem.param_id }}.1.{{ item.id }}"> {{ item }}</label>
+                <br>
+            {% endfor %}
+        {% elif elem.available_values %}
+            {% for item in elem.available_values %}
+
+                    {% if item.id in elem.value_checked %}
+                        <input id="label_{{ elem.param_id }}.2.{{ item.id }}" type="checkbox" name="{{ elem.param_id }}.2.{{ item.id }}" value="{{ item.id }}" checked>
+                    {% else %}
+                        <input id="label_{{ elem.param_id }}.2.{{ item.id }}" type="checkbox" name="{{ elem.param_id }}.2.{{ item.id }}" value="{{ item.id }}">
+                    {% endif %}
+
+                <label for="label_{{ elem.param_id }}.2.{{ item.id }}">{{ item.value }}</label><br>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    </form>
+</div>

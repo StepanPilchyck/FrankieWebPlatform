@@ -1,0 +1,64 @@
+{% extends "blocks/base.html" %}
+
+{% block ng-app %}ng-app="webshopcart"{% endblock %}
+
+{% block content %}
+
+    <div class="col-sm-12" ng-controller="GetProductsInCartController">
+
+
+
+
+
+        <div class="row" ng-repeat="product in products">
+
+            <div id="_!{ product.product_id}!_!{product.corrector_id }!" ng-controller="ActionCartController">
+
+                <div class="col-sm-4">
+                    <img src="!{ product.image }!" alt="!{ product.name }!">
+                    <p>!{ product.name }!  <span ng-if="product.corrector_name">( !{ product.corrector_name }! )</span> </p>
+                </div>
+                <div class="col-sm-3">
+                    <div ng-init="initProductCount(product.product_id, product.corrector_id)">
+                        <button ng-click="productDecCountCart(product.product_id, product.corrector_id, product.price, count)">-</button>
+                        <input ng-change="productChangeCountCart(product.product_id, product.corrector_id, product.price, count)" type="number" ng-model="count" min="1" style="width: 50px;">
+                        <button ng-click="productIncCountCart(product.product_id, product.corrector_id, product.price, count)">+</button>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <p><span>!{ (count * product.price) | currency:'' }!</span></p>
+                </div>
+                <div class="col-sm-3 price-cart-tr">
+                    <p>
+                        <span>!{ product.price | currency:'' }!</span>
+                        <button ng-click="productDeleteInCart(product.product_id, product.corrector_id, product.price)">X</button>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>Total count: !{ totalCount }!</div>
+        <div>Total price: !{ totalPrice }!</div>
+
+
+
+
+
+    </div>
+
+
+
+<!-- include "blocks/_cart.html" -->
+
+<!-- include "blocks/_form_order.html" -->
+
+{% endblock %}
+
+{% block scripts_end_body %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+    <script src="/static/system/js/webshopcartSystemObject.js" defer></script>
+    <script src="/static/system/js/cart_app.js" defer></script>
+{% endblock %}

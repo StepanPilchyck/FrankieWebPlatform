@@ -1,0 +1,12 @@
+<div>
+    <form action="" class="submit-false">
+        <label>Order By:
+            <select name="order_by">
+                <option value="by weight" {% if filter.order_by == 'by weight' %} selected {% endif %}>by weight</option>
+                <option value="by price asc" {% if filter.order_by == 'by price asc' %} selected {% endif %}>by price asc</option>
+                <option value="by price dsc" {% if filter.order_by == 'by price dsc' %} selected {% endif %}>by price dsc</option>
+                <option value="by date" {% if filter.order_by == 'by date' %} selected {% endif %}>by date</option>
+            </select>
+        </label>
+    </form>
+</div>

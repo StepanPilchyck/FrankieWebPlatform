@@ -1,0 +1,12 @@
+django==1.8.7
+django-flat-theme
+django-mptt
+django_mptt_admin
+
+django-ckeditor
+django-image-cropping
+easy_thumbnails
+django-smart-selects
+django-modeladmin-reorder
+openpyxl
+django-import-export

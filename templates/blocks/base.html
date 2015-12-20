@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
+
+    </head>
+    <body {% block ng-app %}{% endblock %}>
+
+        {% block scripts_begin_body %}
+        {% endblock %}
+
+        <!--HEADER-->
+        <!--/HEADER-->
+
+
+        <!--PREHEADER-->
+        <!--/PREHEADER-->
+
+
+        <!--content-->
+        {% block content %}
+        {% endblock %}
+        <!--/content-->
+
+
+        <!--FOOTER-->
+        <!--/FOOTER-->
+
+        {% block scripts_end_body %}
+        {% endblock %}
+
+    </body>
+</html>

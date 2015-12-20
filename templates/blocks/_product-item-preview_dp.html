@@ -1,0 +1,37 @@
+<div class="product-add_to_cart">
+
+    <a href="/product/{{ item.product.url }}">
+        {% for image in item.images %}
+            {% if forloop.first %}
+            {% comment %}<img src={{ image.small_image }} alt="{{ image.title }}"/>{% endcomment %}
+            {% endif %}
+        {% endfor %}
+    </a>
+
+    <br>
+
+    <a href="/product/{{ item.product.url }}">
+        {{ item.product.name }}
+    </a>
+
+    <br>
+
+    <span>Rating: {{ item.product.get_avg_rating }}</span>
+
+    <br>
+
+    <span class="product-price">{{ item.product.get_default_price|floatformat:'-2'  }}</span>
+
+    <br>
+
+    <div class="product-button_cart">
+    {% if item.count_in_cart %}
+        <input class="product_count-add_cart" value="+" data-p="{{ item.product.id }}" data-c="" type="button">
+        <span class="product_count-in_cart">{{ item.count_in_cart }}</span>
+        <input class="product_count-delete_cart" value="-" data-p="{{ item.product.id }}" data-c="" type="button">
+    {% else %}
+        <input type="button" class="add-to-cart" value="Add to cart" name="Add" data-p="{{ item.product.id }}" data-c="" />
+    {% endif %}
+    </div>
+
+</div>

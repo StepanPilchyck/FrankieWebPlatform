@@ -1,0 +1,153 @@
+{% extends "blocks/base.html" %}
+
+{% block ng-app %}ng-app="webshopcart"{% endblock %}
+
+{% block content %}
+    <!--include "blocks/_filter.html"-->
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-4">
+
+
+
+
+
+
+
+
+                <div class="col-sm-12" ng-controller="CartPreviewController">
+                    <div>
+                        <div>totalCount: !{ totalCount }!</div>
+                        <div>totalPrice: !{ totalPrice }!</div>
+                        <input type="text" ng-model="totalCount">
+                        <input type="text" ng-model="totalPrice">
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="col-sm-12">
+                    <!--include "blocks/_extra-menu.html"-->
+                </div>
+                <div class="col-sm-12">
+                    <!--include "blocks/_filter-parameters.html"-->
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+
+                <!--include "blocks/_bread-crumbs.html"-->
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!--include "blocks/_filter-sort.html"-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" ng-controller="GetProductsFromCategoryController">
+
+
+
+
+
+
+
+
+
+<div class="col-md-4" ng-repeat = "product in products">
+
+    <a ng-href="/product/!{ product.data.url }!">
+        <img ng-src="!{ product.data.images[0].data.medium }!" />
+    </a>
+
+    <a ng-href="/product/!{ product.data.url }!">
+        !{ product.data.name }!
+    </a>
+
+    <div ng-if="product.data.price_correctors.length > 0">
+        <div ng-repeat = "corrector in product.data.price_correctors">
+            <div ng-controller="ActionCartController">
+                !{ corrector.data.name }! : !{ corrector.data.price | currency:'' }!
+                <span ng-if="corrector.data.price != corrector.data.price_new">!{ corrector.data.price_new | currency:'' }!</span>
+                <div ng-init="initButtonCart(product.id, corrector.id)">
+                    <div ng-if="!productInCart">
+                        <input type="number" ng-model="count" min="1" style="width: 50px;">
+                        <button ng-click="productAddToCart(product.id, corrector.id, corrector.data.price_new, count)">Add to cart</button>
+                    </div>
+                    <div ng-if="productInCart">
+                        <button ng-click="productDecCountCart(product.id, corrector.id, corrector.data.price_new, count)">-</button>
+                        <input ng-change="productChangeCountCart(product.id, corrector.id, corrector.data.price_new, count)" type="number" ng-model="count" min="1" style="width: 50px;">
+                        <button ng-click="productIncCountCart(product.id, corrector.id, corrector.data.price_new, count)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="product.data.price_correctors.length == 0">
+        !{ product.data.default_price | currency:'' }!
+        <div ng-controller="ActionCartController">
+            <span ng-if="product.data.default_price != product.data.default_new_price">!{ product.data.default_new_price | currency:'' }!</span>
+            <div ng-init="initButtonCart(product.id, false)">
+                <div ng-if="!productInCart">
+                    <input type="number" ng-model="count" min="1" style="width: 50px;">
+                    <button ng-click="productAddToCart(product.id, corrector.id, product.data.default_new_price, count)">Add to cart</button>
+                </div>
+                <div ng-if="productInCart">
+                    <button ng-click="productDecCountCart(product.id, corrector.id, product.data.default_new_price, count)">-</button>
+                    <input ng-change="productChangeCountCart(product.id, corrector.id, product.data.default_new_price, count)" type="number" ng-model="count" min="1" style="width: 50px;">
+                    <button ng-click="productIncCountCart(product.id, corrector.id, product.data.default_new_price, count)">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                    {% autoescape off %}
+                    {% if products %}
+                        {% for item in products %}
+                            <div class="col-md-4">
+                            <!--include "blocks/_product-item-preview_pc.html"-->
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endautoescape %}
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!--include "blocks/_filter-pagination.html"-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block scripts_end_body %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+    <script src="/static/system/js/webshopcartSystemObject.js" defer></script>
+    <script src="/static/system/js/catalogue_app.js" defer></script>
+{% endblock %}

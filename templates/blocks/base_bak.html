@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <link rel="icon" type="image/png" href="" />
+
+        {% autoescape off %}
+            {% if seo.meta_description %}
+                <meta name="description" content="{{ seo.meta_description }}" />
+            {% endif %}
+            {% if seo.meta_keywords %}
+                <meta name="keywords" content="{{ seo.meta_keywords }}" />
+            {% endif %}
+            {% if seo.meta_canonical %}
+                <link rel="canonical" href="{{ seo.meta_canonical }}" />
+            {% endif %}
+            {% if seo.meta_robots %}
+                <meta name="robots" content="{{ seo.meta_robots }}">
+            {% endif %}
+
+            <title>{{ seo.title }}</title>
+
+        {% endautoescape %}
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/static/system/css/star-rating.css" type="text/css" />
+
+        {% include "blocks/head.html" %}
+
+        {% block head %}
+        {% endblock %}
+
+    </head>
+    <body>
+
+        <!--HEADER-->
+        <header>
+            {% include "blocks/_sys-header.html" %}
+            {% block header %}
+            {% endblock %}
+        </header>
+        <!--/HEADER-->
+
+
+        <!--PREHEADER-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    {% include "blocks/_main-menu.html" %}
+                </div>
+                <div class="col-sm-2">
+                    {% include "blocks/_cart-preview.html" %}
+                </div>
+                <div class="col-sm-2">
+                    {% include "blocks/_languages.html" %}
+                </div>
+            </div>
+        </div>
+        <!--/PREHEADER-->
+
+
+        <!--WRAPPER-->
+        {% block content %}
+
+        {% endblock %}
+        <!--/WRAPPER-->
+
+
+        <!--FOOTER-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        {% include "blocks/_sys-footer.html" %}
+                        {% block footer %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!--/FOOTER-->
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/static/system/js/star-rating.js" type="text/javascript"></script>
+        <script src="/static/system/js/custom-stars.js" type="text/javascript"></script>
+        <script src="/static/system/js/webshopcart.tmp.js" type="text/javascript"></script>
+        <script src="/static/system/js/webshopcart.js" type="text/javascript"></script>
+        <script src="/static/system/js/webshopcart.conf.js" type="text/javascript"></script>
+        <script src="/static/system/js/webfilters.js" type="text/javascript"></script>
+        <script src="/static/system/js/validator.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+        $(function(){
+            $('.carousel').carousel({
+                interval: 3000
+            });
+        });
+        $(function(){
+
+            getCsrftoken = function(context)
+            {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '')
+                {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++)
+                    {
+                        var cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, context.length + 1) == (context + '='))
+                        {
+                            cookieValue = decodeURIComponent(cookie.substring(context.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            };
+
+
+            $('.language-set .item').click(function(){
+                $.ajax({
+                    url: '/api/set_language/' + $(this).attr('data-lang'),
+                    type: 'POST',
+                    data:
+                    {
+                        'csrfmiddlewaretoken': getCsrftoken('csrftoken')
+                    },
+                    success: function (data)
+                    {
+                        var l = data.language;
+                        var url = window.location.href.substr(window.location.href.indexOf('/',8));
+                        var new_url = '';
+
+                        if (url == '/')
+                        {
+                            new_url = ((l == 'ru') ? '/' : '/index_' + l);
+                        }
+                        else
+                        {
+                            new_url = url.substr(0, url.length-2) + l;
+                            new_url = ((new_url == '/index_ru') ? '/' : url.substr(0, url.length-2) + l);
+                        }
+
+                        console.log('Language: ', l);
+                        console.log('This URL: ', url);
+                        console.log('Redirect to: ', new_url);
+
+                        window.location.href = new_url;
+                    }
+                });
+            });
+        });
+        </script>
+
+        {% block scripts %}
+        {% endblock %}
+
+        {% include "blocks/_sys-scripts.html" %}
+    </body>
+</html>

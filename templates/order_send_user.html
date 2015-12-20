@@ -1,0 +1,45 @@
+<table border="0" cellpadding="10" cellspacing="0" style="width: 100%">
+	<tbody>
+		<tr>
+			<td style="background-color: rgb(102, 204, 51);">
+			<p style="padding: 0px; margin: 0px; font-size:18px; color: rgb(255, 255, 255);"><strong>НОВЫЙ ЗАКАЗ</strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color: rgb(238, 238, 238);">
+                <p>Имя заказчика: <strong>{{ user_name}}</strong></p>
+                <p>Номер телефона: <strong>{{ user_phone }}</strong></p>
+                <p>E-mail адрес: <strong>{{ user_email }}</strong></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color: rgb(102, 204, 51);">
+            <table border="0" cellpadding="10" cellspacing="0" style="width: 100%; color: rgb(255, 255, 255);">
+				<tbody>
+                {% for p in products %}
+                    <tr>
+                        <td style="width: 300px;">
+                            <p style="margin: 0px;"><strong>{{ p.name }}</strong></p>
+                        </td>
+                        <td style="min-width: 200px;">
+                            <p style="margin: 0px;">{{ p.count }} шт. x {{ p.price }} грн. = <strong>{{ p.sum }} грн.</strong></p>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td>
+                            <p style="font-size:18px; margin: 0px;">Общая сумма заказа:</p>
+                        </td>
+                        <td>
+                            <p style="font-size:18px; margin: 0px;"><strong>{{ total_sum }} грн.</strong></p>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+

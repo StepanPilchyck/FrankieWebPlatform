@@ -1,0 +1,41 @@
+{% if products_in_cart.product %}
+
+    <div class="web_shop_cart-clear_all">Clear cart !!!</div>
+    <div class="web_shop_cart-preview">
+
+        {% for p, val in products_in_cart.product.items %}
+
+            <div class="row body-cart">
+                <div class="col-sm-4 body-cart-cust-1">
+                    <img src="{{ val.img_url }}" alt="alt">
+                    <p class="product_name">{{ val.p_name }}</p>
+                </div>
+                <div class="col-sm-3 text-center call-1">
+                    <img class="product_count-delete_cart" data-p="{{ val.p }}" data-c="{{ val.c }}" src="/static/images/add-good.png" alt="Delete">
+                    <span class="all-good-cart count">{{ val.p_count }}</span>
+                    <img class="product_count-add_cart" data-p="{{ val.p }}" data-c="{{ val.c }}" src="/static/images/rgood.png" alt="Add">
+                </div>
+                <div class="col-sm-2 price-cart-tr text-center">
+                    <p><span class="price">{{ val.price|floatformat:'-2' }}</span> грн</p>
+                </div>
+                <div class="col-sm-3 price-cart-tr">
+                    <p>{{ val.p_price|floatformat:'-2' }} грн
+                    <img src="/static/images/delete_icon.png" class="product_remove" data-p="{{ val.p }}" data-c="{{ val.c }}" alt="Remove">
+                    </p>
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+    <div>Total price: <span class="web_shop_cart-total_price">{{ products_in_cart.t_price|floatformat:'-2' }}</span></div>
+    <div>Total count: <span class="web_shop_cart-total_count">{{ products_in_cart.t_count }}</span></div>
+
+{% else %}
+
+    <div>Total price: <span class="web_shop_cart-total_price">0</span></div>
+    <div>Total count: <span class="web_shop_cart-total_count">0</span></div>
+
+{% endif %}
+
+{% include "blocks/_cart-csrf_token.html" %}

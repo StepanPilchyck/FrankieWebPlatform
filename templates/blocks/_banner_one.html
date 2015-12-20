@@ -1,0 +1,19 @@
+{% if  banners %}
+<!-- Banners -->
+{% autoescape off %}
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            {% for image in banners.banner_one %}
+            <div class="item {% if forloop.first %} active {% endif %}">
+                <div class="testing-slide">
+                    <img src="{{ image.original_image }}" alt="{{ image.title }}">
+                    <!--span>{{ image.description }}</span-->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endautoescape %}
+<!-- -->
+{% endif %}

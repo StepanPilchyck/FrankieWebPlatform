@@ -1,0 +1,21 @@
+{% load mptt_tags %}
+<ul class="nav nav-justified">
+    {% recursetree main_menu.menu %}
+        <li class="{% if main_menu.menu == node.get_url %}actile{% endif %}">
+            <a href="{% for key, url in node.get_url.items %}
+            {% if key == language_id %}
+                {{ url }}
+            {% endif %}
+        {% endfor %}">{% for key, name in node.get_name.items %}
+            {% if key == language_id %}
+                {{ name }}
+            {% endif %}
+        {% endfor %}</a>
+            {% if not node.is_leaf_node %}
+                <ul>
+                   {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>

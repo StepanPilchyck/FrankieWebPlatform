@@ -1,0 +1,21 @@
+{% comment %}<div>
+    <form action="" class="_submit-false">
+        <input type="hidden" name="product_on_page" value="{{ product_on_page }}">
+
+        {% for item in pagination %}
+            {% if forloop.counter0 == filter.page %}
+                <input type="radio" id="label_pagination_{{ forloop.counter0 }}" name="page" value="{{ forloop.counter0 }}" checked>
+            {% else %}
+                <input type="radio" id="label_pagination_{{ forloop.counter0 }}" name="page" value="{{ forloop.counter0 }}">
+            {% endif %}
+            <label  for="label_pagination_{{ forloop.counter0 }}">{{ item }}</label>
+        {% endfor %}
+
+    </form>
+</div>{% endcomment %}
+
+<div>
+    {% for item in pagination %}
+            <a href="/catalogue/{{ category.url }}/page{{ forloop.counter0 }}/{% if get_link %}?{{ get_link }}{% endif %}" class="{% if forloop.counter0 == filter.page %}active{% endif %}">{{ item }}</a>
+    {% endfor %}
+</div>

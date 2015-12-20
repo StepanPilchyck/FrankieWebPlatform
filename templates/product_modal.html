@@ -1,0 +1,126 @@
+{% extends "blocks/base.html" %}
+
+{% block content %}
+
+    <div class="container">
+         <div class="row">
+
+
+             {% include "blocks/_bread-crumbs.html" %}
+
+
+             <div class="col-sm-6">
+            {% for image in product_images %}
+                {% if forloop.first %}
+                <div class="col-sm-8 text-center">
+                   <img src="{{ image.medium_image }}" alt="{{ image.title }}">
+                </div>
+                {% else %}
+                <div class="col-sm-4">
+                    <img src={{ image.small_image }} alt="{{ image.title }}"/>
+                </div>
+                {% endif %}
+            {% endfor %}
+             </div>
+
+             <div class="col-sm-6">
+                 <h1>{{ seo.h1 }}</h1>
+                 <p>описание</p>
+                 <p>
+                    {% autoescape off %}
+                    {{ product.first_text }}
+                    {% endautoescape %}
+                 </p>
+                <div>
+                    {% if product_parameters %}
+                        <p><b>Параметры:</b></p>
+                        {% for item in product_parameters %}
+                            <p>{{ item.parameter }}: {{ item.value }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="product-add_to_cart">
+
+                    <br>
+
+                    {% if product_price_corrector %}
+                        <div class="product-price_corrector">
+                            {% for corrector in product_price_corrector %}
+                                <label for="cor_{{ product.id }}_{{ corrector.id }}">{{ corrector.name }}</label>
+                                <input type="radio" name="product_{{ product.id }}" id="cor_{{ product.id }}_{{ corrector.id }}" value="{{ corrector.new_price }}" data-p="{{ product.id }}" data-c="{{ corrector.id }}">
+                            {% endfor %}
+                        </div>
+                        <span class="product-price_corrector_print"></span>
+                    {% else %}
+                        <span class="product-price">{{ product.default_price|floatformat:'-2'  }}</span>
+                    {% endif %}
+
+                    <br>
+
+                    <div class="product-button_cart">
+                    {% if product_in_cart %}
+                        <input class="product_count-add_cart" value="+" data-p="{{ product.id }}" data-c="" type="button">
+                        <span class="product_count-in_cart">{{ product_in_cart }}</span>
+                        <input class="product_count-delete_cart" value="-" data-p="{{ product.id }}" data-c="" type="button">
+                    {% else %}
+                        <input type="button" class="add-to-cart" value="Add to cart" name="Add" data-p="{{ product.id }}" data-c="" />
+                    {% endif %}
+                    </div>
+
+                    <br>
+
+                </div>
+
+             </div>
+         </div>
+     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p>Похожие товары</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {%  for p in similar_products %}
+                <div class="col-sm-3">{% include "blocks/_product-item-preview.html" with item=p %}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form_rating.product_id }}
+            {{ form_rating.non_field_errors }}
+            <div class="row">
+                {{ form_rating.user_name.errors }}
+                <label for="{{ form_rating.user_name.id_for_label }}">Your Name:</label>
+                {{ form_rating.user_name }}
+            </div>
+            <div class="row">
+                {{ form_rating.user_email.errors }}
+                <label for="{{ form_rating.user_email.id_for_label }}">Your email address:</label>
+                {{ form_rating.user_email }}
+            </div>
+            <div class="row">
+                {{ form_rating.user_rating.errors }}
+                <label for="{{ form_rating.user_rating.id_for_label }}">Rating</label>
+                <input name="user_rating" class="rating form-control hide" id="{{ form_rating.user_rating.id_for_label }}" value="1" data-size="xs"/>
+            </div>
+            <div class="row">
+                {{ form_rating.user_message.errors }}
+                <label for="{{ form_rating.user_message.id_for_label }}">Your Message:</label>
+                {{ form_rating.user_message }}
+            </div>
+            <div class="row">
+                <input type="submit" value="Save">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
